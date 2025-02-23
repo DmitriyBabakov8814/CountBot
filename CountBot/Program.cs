@@ -1,11 +1,9 @@
-﻿using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types;
-using Telegram.Bot;
-using Microsoft.Extensions.Hosting;
-using Telegram.Bot.Polling;
-using System.Text;
+﻿using CountBot.Controllers;
+using CountBot.Service;
 using Microsoft.Extensions.DependencyInjection;
-using CountBot.Controllers;
+using Microsoft.Extensions.Hosting;
+using System.Text;
+using Telegram.Bot;
 
 namespace CountBot
 {
@@ -35,6 +33,8 @@ namespace CountBot
             services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient("7880609268:AAHXty13eN-aXKUJ5X1VlOAy0G4P0LP2c2w"));
             // Регистрируем постоянно активный сервис бота
             services.AddHostedService<Bot>();
+            services.AddSingleton<CountStringChar>();
+            services.AddSingleton<CountSum>();
         }
     }
 }

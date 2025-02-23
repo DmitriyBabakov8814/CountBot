@@ -17,11 +17,13 @@ namespace CountBot
         ITelegramBotClient _telegramClient;
         TextMessageController _textmessagecontroller;
         MessageController _messagecontroller;
-        public Bot(ITelegramBotClient telegramClient, TextMessageController textmessagecontroller, MessageController messagecontroller)
+        InlineKeyboardController _inlinekeyboardcontrollerl;
+        public Bot(ITelegramBotClient telegramClient, TextMessageController textmessagecontroller, MessageController messagecontroller, InlineKeyboardController inlinekeyboardcontrollerl)
         {
             _telegramClient = telegramClient;
             _textmessagecontroller = textmessagecontroller;
             _messagecontroller = messagecontroller;
+            _inlinekeyboardcontrollerl = inlinekeyboardcontrollerl;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -41,6 +43,10 @@ namespace CountBot
                         await _messagecontroller.Handle(update.Message, cancellationToken);
                         return;
                 }
+            }
+            else if(update.Type == UpdateType.CallbackQuery)
+            {
+                await _inlinekeyboardcontrollerl.Handle(update.CallbackQuery, cancellationToken);
             }
         }
         Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
